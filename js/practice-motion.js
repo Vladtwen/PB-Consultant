@@ -1,4 +1,4 @@
-/* Five finite, component-level SVG animations. No canvas or path-morph plugin.
+/* Finite, component-level SVG animations. No canvas or path-morph plugin.
  * The initial SVG is a complete static icon if JavaScript is unavailable.
  * Touch/coarse input and reduced-motion preferences keep this static state. */
 (() => {
@@ -20,6 +20,26 @@
         `translate(${x} ${y}) rotate(${number(rotation)}) scale(${number(scale)}) translate(${-x} ${-y})`;
 
     const motions = {
+        corporate: {
+            duration: 1600,
+            parts: ["parent", "branches", "child-left", "child-middle", "child-right"],
+            render(parts, progress) {
+                // Gather into the parent, then grow outward in a staggered sequence.
+                const gathering = progress < 0.2;
+                const fold = smooth(segment(progress, 0, 0.2));
+                const branchGrowth = gathering ? 1 - fold : out(segment(progress, 0.22, 0.72));
+                set(parts.branches, "transform", `translate(40 27) scale(1 ${number(branchGrowth)}) translate(-40 -27)`);
+                set(parts.branches, "opacity", number(branchGrowth));
+                set(parts.parent, "transform", centered(40, 18, 0, 1 + 0.1 * Math.sin(progress * Math.PI)));
+                [["child-left", 17], ["child-middle", 40], ["child-right", 63]].forEach(([name, x], index) => {
+                    const growth = gathering ? 1 - fold : out(segment(progress, 0.23 + index * 0.1, 0.76 + index * 0.1));
+                    const currentX = mix(40, x, growth);
+                    const currentY = mix(18, 60, growth);
+                    set(parts[name], "transform", `translate(${number(currentX)} ${number(currentY)}) scale(${number(mix(0.08, 1, growth))}) translate(${-x} -60)`);
+                    set(parts[name], "opacity", number(growth));
+                });
+            }
+        },
         commercial: {
             duration: 1250,
             parts: ["spindle"],

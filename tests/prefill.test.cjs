@@ -39,8 +39,8 @@ context.document = {
 };
 vm.runInContext(fs.readFileSync(path.join(root, "js/main.js"), "utf8"), context);
 
-assert.equal(links.length, 10);
-assert.equal(new Set(Object.values(examples).map((item) => item.text)).size, 10);
+assert.equal(links.length, 11);
+assert.equal(new Set(Object.values(examples).map((item) => item.text)).size, 11);
 for (const link of links) {
     link.click();
     assert.equal(elements.message.value, examples[link.dataset.practice].text);
@@ -50,7 +50,7 @@ for (const link of links) {
 // Набранный текст защищен; новый пример находится в отдельном блоке.
 elements.message.value = "Мой собственный вопрос";
 elements.message.dispatchEvent(new Event("input"));
-links[0].click();
+links.find(link => link.dataset.practice === "real-estate").click();
 assert.equal(elements.message.value, "Мой собственный вопрос");
 assert.equal(elements["example-preview"].hidden, false);
 assert.equal(elements["example-text"].textContent, examples["real-estate"].text);
@@ -74,9 +74,9 @@ assert.equal(elements["undo-example"].hidden, true);
 // Очистка снова разрешает подстановку.
 elements.message.value = "";
 elements.message.dispatchEvent(new Event("input"));
-links[9].click();
+links.find(link => link.dataset.practice === "tax").click();
 assert.equal(elements.message.value, examples.tax.text);
-console.log("OK: 10 направлений, защита текста, явная замена, отмена и повторный выбор.");
+console.log("OK: 11 направлений, защита текста, явная замена, отмена и повторный выбор.");
 
 // Смена направления во время запроса не меняет отправляемые данные.
 elements["contact-form"] = { getAttribute: () => "true" };

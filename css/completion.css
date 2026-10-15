@@ -304,3 +304,58 @@ body {
 .send-warning h2:focus { outline: none; }
 .warning-acknowledgement span { min-width: 0; overflow-wrap: anywhere; }
 @media (max-width: 360px) { .send-warning h2 { font-size: 1.35rem; } }
+
+/* September update: consistent arrows and the supplied architectural photography. */
+.button-arrow {
+    display: block;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+    overflow: visible;
+    transition: transform .25s;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .button:hover .button-arrow, .text-link:hover .button-arrow { transform: translate(2px, -2px); }
+}
+/* Center the final pair in the five-card practice grid. */
+.contacts { display: block; }
+@media (min-width: 701px) {
+    .case-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .case-grid > .case { grid-column: span 2; }
+    .case-grid > .case:nth-child(4):nth-last-child(2) { grid-column: 2 / span 2; }
+    .case-grid > .case:nth-child(5):last-child { grid-column: 4 / span 2; }
+    .contacts > div { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); column-gap: 80px; }
+    .contacts .eyebrow, .contacts h2 { grid-column: 1; }
+    .contacts dl { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; }
+}
+.hero .tree-composition { padding: 12px 14px 14px 0; }
+.hero .tree-composition::before, .hero .tree-composition::after { content: none; }
+.hero .tree-frame {
+    margin: 0;
+    padding: 12px;
+    border: 1px solid #b9ac93;
+    border-radius: 0;
+    background: #e8e1d3 url("../images/paper-grain.svg");
+    box-shadow: 0 12px 26px #29392f0d;
+}
+.hero .tree-frame::before {
+    inset: -12px -14px 12px 14px;
+    border: 1px solid #9b9c8570;
+    border-radius: 0;
+    z-index: -1;
+}
+.hero .tree-frame img {
+    display: block;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: 0;
+}
+@media (max-width: 700px) {
+    .contact-photo { width: 130px; }
+    .hero .tree-composition { width: min(100%, 420px); padding: 10px 10px 10px 0; }
+    .hero .tree-frame { padding: 8px; }
+    .hero .tree-frame::before { inset: -10px -10px 10px 10px; }
+    .mobile-cta .button { align-items: center; }
+}

@@ -10,6 +10,10 @@ const path = require("node:path");
 const staged = fs.existsSync(path.join(__dirname, "practice-motion.js"));
 const source = fs.readFileSync(path.join(__dirname, staged ? "practice-motion.js" : "../js/practice-motion.js"), "utf8");
 const fragments = JSON.parse(fs.readFileSync(path.join(__dirname, staged ? "practice-svg-fragments.json" : "../tools/practice-svg-fragments.json"), "utf8"));
+if (!staged) {
+    const html = fs.readFileSync(path.join(__dirname, "../index.html"), "utf8");
+    fragments.corporate = html.match(/data-practice="corporate">\s*(<svg[\s\S]*?<\/svg>)/)[1];
+}
 
 function harness({ fine = true, reduced = false } = {}) {
     let now = 0;
@@ -55,6 +59,31 @@ function harness({ fine = true, reduced = false } = {}) {
 }
 const enter = (row) => row.events.pointerenter({ pointerType: "mouse" });
 const attr = (row, part, name) => row.svg.parts[part].attrs[name];
+
+test("corporate children grow from the parent, settle, and reset safely", () => {
+    const h = harness();
+    const row = h.row("corporate");
+    const initial = JSON.stringify(row.svg.parts);
+    enter(row);
+    h.advance(320);
+    assert.equal(attr(row, "child-left", "opacity"), "0");
+    assert.match(attr(row, "child-left", "transform"), /^translate\(40 18\) scale\(0.08\)/);
+    h.advance(480);
+    assert.ok(Number(attr(row, "child-left", "opacity")) > Number(attr(row, "child-right", "opacity")));
+    h.advance(1000);
+    assert.equal(attr(row, "child-left", "opacity"), "1");
+    assert.match(attr(row, "child-right", "transform"), /^translate\(63 60\) scale\(1\)/);
+    assert.equal(h.frames.size, 0);
+    row.events.pointerleave();
+    h.advance(500);
+    assert.equal(JSON.stringify(row.svg.parts), initial);
+    for (const settings of [{fine:false}, {reduced:true}]) {
+        const staticView = harness(settings);
+        enter(staticView.row("corporate"));
+        assert.equal(staticView.frames.size, 0);
+        assert.equal(attr(staticView.row("corporate"), "child-right", "opacity"), "1");
+    }
+});
 
 test("commercial spindle shrinks and rotates while only that component is animated", () => {
     const h = harness();
@@ -183,7 +212,7 @@ test("a preference change or hidden document cancels every pending frame", () =>
     assert.equal(attr(h.row("water"), "bubble-top", "r"), "20");
     h.preference.matches = false;
     h.preference.events.change();
-    assert.equal(h.frames.size, 5);
+    assert.equal(h.frames.size, Object.keys(fragments).length);
     h.document.hidden = true;
     h.docEvents.visibilitychange();
     assert.equal(h.frames.size, 0);
