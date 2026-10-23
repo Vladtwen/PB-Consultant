@@ -11,8 +11,7 @@
             name: String(values.name || "").trim(),
             contact: String(values.contact || "").trim(),
             message: String(values.message || "").trim(),
-            practice: String(values.practice || "").trim(),
-            consent: values.consent === true
+            practice: String(values.practice || "").trim()
         };
         if (isEmpty(data.name)) errors.name = "Пожалуйста, представьтесь.";
         else if (data.name.length > 120) errors.name = "Имя должно быть не длиннее 120 символов.";
@@ -26,7 +25,6 @@
 
         if (isEmpty(data.message)) errors.message = "Кратко опишите вашу ситуацию.";
         else if (data.message.length > 6000) errors.message = "Описание должно быть не длиннее 6000 символов.";
-        if (!data.consent) errors.consent = "Для отправки необходимо ваше согласие.";
         return { data, errors, valid: Object.keys(errors).length === 0 };
     }
 
@@ -42,7 +40,6 @@
             contact: checked.data.contact,
             message: checked.data.message,
             practice: checked.data.practice || "Не выбрано",
-            consent: "Согласие получено",
             _subject: "Новое обращение — ПБ Консультант",
             _template: "table"
         };

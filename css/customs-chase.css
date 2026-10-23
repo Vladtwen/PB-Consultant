@@ -1,0 +1,71 @@
+/* Inline SVG only: keep a complete, readable scene without interaction or JS. */
+.practice-symbol.customs-chase {
+  width: 72px;
+  height: 45px;
+  overflow: visible;
+  animation: none !important;
+  transform: none !important;
+}
+.customs-chase__truck,
+.customs-chase__pixel,
+.customs-chase__pacman,
+.customs-chase__jaw {
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+.customs-chase__pixel--one { transform: translate(36px, 37px); }
+.customs-chase__pixel--two { transform: translate(45px, 34px); }
+.customs-chase__pixel--three { transform: translate(51px, 27px); }
+.customs-chase__jaw { transform-origin: 19px 37px; }
+.customs-chase__jaw--upper { transform: rotate(-23deg); }
+.customs-chase__jaw--lower { transform: rotate(23deg); }
+
+/* One short chase per hover/focus. Touch and reduced-motion views stay still. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  :is(.practice-row:hover, .practice-row:focus-visible, .article-aside:hover, .article-aside:focus-within) .customs-chase__truck {
+    animation: customs-truck-run 3.3s ease-in-out both;
+  }
+  :is(.practice-row:hover, .practice-row:focus-visible, .article-aside:hover, .article-aside:focus-within) .customs-chase__pixel {
+    animation: customs-pixel-drop 2.1s linear both;
+  }
+  :is(.practice-row:hover, .practice-row:focus-visible, .article-aside:hover, .article-aside:focus-within) .customs-chase__pixel--two { animation-delay: .55s; }
+  :is(.practice-row:hover, .practice-row:focus-visible, .article-aside:hover, .article-aside:focus-within) .customs-chase__pixel--three { animation-delay: 1.1s; }
+  :is(.practice-row:hover, .practice-row:focus-visible, .article-aside:hover, .article-aside:focus-within) .customs-chase__pacman {
+    animation: customs-pacman-run 3.3s ease-in-out both;
+  }
+  :is(.practice-row:hover, .practice-row:focus-visible, .article-aside:hover, .article-aside:focus-within) .customs-chase__jaw--upper {
+    animation: customs-chomp-upper .55s ease-in-out 6;
+  }
+  :is(.practice-row:hover, .practice-row:focus-visible, .article-aside:hover, .article-aside:focus-within) .customs-chase__jaw--lower {
+    animation: customs-chomp-lower .55s ease-in-out 6;
+  }
+  @keyframes customs-truck-run {
+    0%, 100% { transform: translate(0, 0); }
+    20%, 60% { transform: translate(3px, -1px); }
+    40%, 80% { transform: translate(3px, 0); }
+  }
+  @keyframes customs-pacman-run {
+    0%, 100% { transform: translateX(0); }
+    25%, 75% { transform: translateX(2px); }
+    50% { transform: translateX(1px); }
+  }
+  @keyframes customs-pixel-drop {
+    0% { transform: translate(55px, 25px) scale(0); opacity: 0; }
+    8% { transform: translate(54px, 25px) scale(1); opacity: 1; }
+    30% { transform: translate(47px, 35px) scale(1); opacity: 1; }
+    55% { transform: translate(39px, 37px) scale(1); opacity: 1; }
+    78% { transform: translate(29px, 37px) scale(1); opacity: 1; }
+    82%, 100% { transform: translate(26px, 37px) scale(0); opacity: 0; }
+  }
+  @keyframes customs-chomp-upper {
+    0%, 30%, 100% { transform: rotate(-23deg); }
+    15% { transform: rotate(-2deg); }
+  }
+  @keyframes customs-chomp-lower {
+    0%, 30%, 100% { transform: rotate(23deg); }
+    15% { transform: rotate(2deg); }
+  }
+}
+@media (max-width: 700px) {
+  .practice-grid .practice-symbol.customs-chase { width: 58px; height: 38px; }
+}

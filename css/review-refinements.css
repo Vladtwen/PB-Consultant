@@ -1,0 +1,45 @@
+/* Team and inquiry refinements from the visual review. */
+.team-grid--people{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px;max-width:none;align-items:start}
+.team-person{padding:23px 0 24px;border-top:1px solid var(--line)}
+.team-person .eyebrow{margin-bottom:12px}
+.team-person h3{font-size:clamp(26px,2.6vw,34px)}
+.team-intro{max-width:790px;font-size:15px;line-height:1.8;margin-top:5px}
+.steps li>span{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;padding:0;font:500 18px/1 Arial,sans-serif;font-variant-numeric:tabular-nums;text-align:center}
+.steps li:nth-child(3)>span{background:#762b43}
+.case-image{max-width:320px;justify-self:end;width:100%;overflow:hidden}
+.case-image picture{display:block;height:100%}
+.case-image img{object-position:51% center;object-fit:cover}
+.contact-layout{align-items:start}
+.contact-copy>.eyebrow{display:flex;align-items:center;min-height:36px;line-height:1.5;margin:0 0 18px;font-size:12px;letter-spacing:.15em}
+.form-heading h3{line-height:36px;margin-top:0}
+.contact-flourish{font-size:88px;line-height:1;width:88px;height:88px;margin-bottom:24px;color:#967041}
+.contact-copy h2{font-size:clamp(34px,3.4vw,46px)}
+.contact-details{grid-template-columns:minmax(0,1fr);gap:18px;margin-top:26px}
+.contact-details>p,.contact-channels{grid-column:1}
+.contact-details strong{font-size:16px}.contact-details .contact-role{font-size:11px}
+.contact-details a{font-size:15px}.contact-channels .text-link{font-size:13px}
+.contact-form label:not(.honey){font-size:14px;font-weight:600;line-height:1.5;color:#253b31}
+.contact-form input:not([type=checkbox]),.contact-form textarea{color:#202d24;font-size:16px;line-height:1.7;margin-top:7px;padding:11px 0;border-bottom-color:#9ba28e}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:#62675b;opacity:1;font-size:15px;font-weight:400}
+.contact-form .required-note{font-size:12px;color:#61695b;margin-bottom:25px}
+.form-heading>p:last-child{font-size:14px}
+.contact-form .field-help{font-size:12px;line-height:1.65;max-width:none}
+.contact-form>.button{margin-top:25px}
+.contact-form .form-notice{font-size:11px;line-height:1.7;max-width:none}
+.contact-form .field-error,.contact-form .form-status{font-size:13px}
+@media(max-width:900px){.contact-layout{gap:32px}.contact-copy h2{font-size:36px}.form-heading h3{font-size:27px;line-height:36px}.contact-flourish{font-size:76px;width:76px;height:76px}.team-grid--people{gap:26px}}
+@media(max-width:700px){
+ .team-grid--people{grid-template-columns:1fr;gap:0;margin-top:24px}
+ .team-person{padding:22px 0}.team-person h3{font-size:28px}.team-intro{font-size:14px;margin-top:0}
+ .case-image{max-width:none;height:250px;min-height:0;width:100%}.case-image img{object-position:51% 48%}
+ .contact-copy{display:grid;grid-template-columns:minmax(0,1fr) 70px;column-gap:12px}
+ .contact-copy>.eyebrow{grid-column:1;grid-row:1;min-height:28px;margin:0 0 12px;font-size:11px}
+ .contact-flourish{grid-column:2;grid-row:1/3;justify-self:end;align-self:center;font-size:64px;line-height:1;width:64px;height:64px;margin:0}
+ .contact-copy h2{grid-column:1;grid-row:2;font-size:34px;margin-bottom:20px;line-height:1.14}
+ .contact-copy>p:not(.eyebrow),.contact-details{grid-column:1/-1}
+ .contact-details{margin-top:22px;gap:15px}.contact-layout{gap:28px}
+ .contact-form{padding-top:26px}.form-heading h3{font-size:28px;line-height:1.2}
+ .contact-form input:not([type=checkbox]),.contact-form textarea{font-size:16px}
+ .contact-form textarea{min-height:125px}.contact-form>.button{min-height:58px}
+}
+@media(max-width:360px){.contact-copy{grid-template-columns:minmax(0,1fr) 48px;column-gap:8px}.contact-flourish{font-size:48px;width:48px;height:48px}.contact-copy h2{font-size:30px}.team-person h3{font-size:26px}}
