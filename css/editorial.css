@@ -47,3 +47,8 @@
 
 .contact-form>.button::after{content:"↗";flex-shrink:0}
 .contact-form input[aria-invalid=true],.contact-form textarea[aria-invalid=true]{border-bottom:2px solid #9f3e2a}
+
+/* Content status supplements the link; it never disables navigation. */
+.practice-status{display:table;width:fit-content;max-width:100%;padding:4px 10px;margin:0 0 12px;border:1px solid #d9cdb7;border-radius:20px;background:#efe7d880;color:#6a573a;font:11px/1.5 Arial,sans-serif;letter-spacing:.01em}
+.page-intro>.practice-status{margin-top:18px;margin-bottom:0}
+@media(max-width:700px){.practice-grid .practice-status{grid-column:2;margin:10px 0 0;font-size:10px}.practice-grid .practice-row>.text-link{grid-row:1/4}}
