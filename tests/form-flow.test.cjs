@@ -23,10 +23,10 @@ class Element extends EventTarget {
 
 function setup(send = async () => ({ accepted: true })) {
     const ids = ["contact-form", "submit-request", "form-status", "send-warning", "confirm-send", "cancel-send",
-        "name", "contact", "message", "consent", "practice", "name-error", "contact-error",
-        "message-error", "consent-error", "honey", "warning-acknowledgement"];
+        "name", "contact", "message", "practice", "name-error", "contact-error",
+        "message-error", "honey", "warning-acknowledgement"];
     const el = Object.fromEntries(ids.map((id) => [id, new Element(id)]));
-    const controls = ["name", "contact", "message", "consent", "practice", "honey", "submit-request"].map(id => el[id]);
+    const controls = ["name", "contact", "message", "practice", "honey", "submit-request"].map(id => el[id]);
     el["contact-form"].dataset.endpoint = "https://example.test/form";
     el["contact-form"].querySelectorAll = () => controls;
     el["contact-form"].querySelector = () => el.honey;
@@ -41,7 +41,7 @@ function setup(send = async () => ({ accepted: true })) {
     const submit = () => el["contact-form"].dispatchEvent(new Event("submit", { cancelable: true }));
     const fill = () => {
         el.name.value = "Тест"; el.contact.value = "client@example.ru";
-        el.message.value = "Проверка договора"; el.consent.checked = true;
+        el.message.value = "Проверка договора";
     };
     const acknowledge = (checked = true) => {
         el["warning-acknowledgement"].checked = checked;
@@ -120,7 +120,6 @@ test("Без отдельной галочки даже программный c
     let calls = 0;
     const { el, submit, fill, acknowledge } = setup(async () => { calls++; });
     fill(); submit();
-    assert.equal(el.consent.checked, true);
     assert.equal(el["confirm-send"].disabled, true);
     el["confirm-send"].click();
     assert.equal(calls, 0);
@@ -151,14 +150,31 @@ test("Ошибка требует нового подтверждения при
     assert.equal(calls, 2);
     assert.equal(el["form-status"].dataset.state, "success");
 });
-test("Отдельная галочка не заменяет согласие на обработку данных", () => {
+test("Форма без элемента consent отправляет только данные обращения после подтверждения предупреждения", async () => {
+    let submitted;
+    const { el, submit, fill, acknowledge } = setup(async (endpoint, data) => {
+        submitted = data;
+        return { accepted: true };
+    });
+    assert.equal(el.consent, undefined);
+    fill(); submit();
+    assert.equal(submitted, undefined);
+    acknowledge(); el["confirm-send"].click(); await tick();
+    assert.equal(el["form-status"].dataset.state, "success");
+    assert.equal(submitted.name, "Тест");
+    assert.equal(submitted.contact, "client@example.ru");
+    assert.equal(submitted.message, "Проверка договора");
+    assert.deepEqual(Object.keys(submitted).sort(), ["contact", "message", "name", "practice"]);
+});
+test("Изменение контакта на невалидный после открытия предупреждения блокирует отправку", () => {
     let calls = 0;
     const { el, submit, fill, acknowledge } = setup(async () => { calls++; });
     fill(); submit(); acknowledge();
-    el.consent.checked = false;
+    el.contact.value = "не телефон";
     el["confirm-send"].click();
     assert.equal(calls, 0);
     assert.equal(el["form-status"].dataset.state, "error");
-    assert.equal(el["consent-error"].hidden, false);
+    assert.equal(el["contact-error"].hidden, false);
+    assert.equal(el.contact.focused, true);
     assert.equal(el["warning-acknowledgement"].checked, false);
 });

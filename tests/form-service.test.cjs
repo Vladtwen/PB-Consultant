@@ -2,13 +2,29 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const service = require("../js/form-service.js");
-const valid = { name: " Тест ", contact: "client@example.ru", message: " Нужна проверка договора. ", consent: true };
+const valid = { name: " Тест ", contact: "client@example.ru", message: " Нужна проверка договора. " };
 const response = (body, ok = true) => async () => ({ ok, json: async () => body });
 
-test("Пустые поля, пробелы и отсутствие согласия блокируют запрос", () => {
+test("Пустые обязательные поля и пробелы блокируют запрос", () => {
     for (const empty of ["", " \n\t ", "\u200b"]) {
         const result = service.validate({ name: empty, contact: empty, message: empty });
-        assert.deepEqual(Object.keys(result.errors), ["name", "contact", "message", "consent"]);
+        assert.deepEqual(Object.keys(result.errors), ["name", "contact", "message"]);
+    }
+});
+test("Устаревшее поле согласия не влияет на проверку и не попадает в письмо", async () => {
+    for (const consent of [undefined, false, true]) {
+        const values = { ...valid, consent };
+        const checked = service.validate(values);
+        assert.equal(checked.valid, true);
+        assert.equal(Object.hasOwn(checked.data, "consent"), false);
+        await service.send("https://example.test/form", values, {
+            fetch: async (_, options) => {
+                const payload = JSON.parse(options.body);
+                assert.deepEqual(Object.keys(payload).sort(), ["_replyto", "_subject", "_template", "contact", "message", "name", "practice"]);
+                assert.doesNotMatch(options.body, /Согласие получено/);
+                return { ok: true, json: async () => ({ success: true }) };
+            }
+        });
     }
 });
 test("Телефон или email; ограничение длины телефона и полей", () => {

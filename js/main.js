@@ -176,7 +176,7 @@ function setupContactForm() {
     const confirmButton = document.getElementById("confirm-send");
     const cancelButton = document.getElementById("cancel-send");
     const acknowledgement = document.getElementById("warning-acknowledgement");
-    const fields = Object.fromEntries(["name", "contact", "message", "consent"].map(
+    const fields = Object.fromEntries(["name", "contact", "message"].map(
         (id) => [id, document.getElementById(id)]
     ));
     let pending = false;
@@ -191,7 +191,6 @@ function setupContactForm() {
             name: fields.name.value,
             contact: fields.contact.value,
             message: fields.message.value,
-            consent: fields.consent.checked,
             practice: document.getElementById("practice").value
         };
     }
