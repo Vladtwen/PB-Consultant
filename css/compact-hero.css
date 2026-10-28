@@ -1,0 +1,29 @@
+/* Restrained architectural introduction, with typography in the foreground. */
+.hero{width:min(1200px,calc(100% - 96px));min-height:340px;margin:20px auto 0;border:1px solid #ded6c9;background:#f4eee4;border-radius:2px}
+.hero::after{display:none}
+.hero-copy{padding:30px 36px;max-width:65%}
+.hero h1{font-size:clamp(43px,4.5vw,58px);line-height:1.03;letter-spacing:-.045em;max-width:560px}
+.hero-lead{font-size:17px;line-height:1.5;margin:18px 0 24px;max-width:430px}
+.hero-actions{gap:24px}.hero-actions .button{font-size:13px;min-height:44px;padding:11px 22px}
+.hero-image img{object-position:75% center}
+.hero-image::after{background:linear-gradient(90deg,#faf6ef 0%,#faf6eff5 23%,#faf6efb0 42%,#faf6ef24 66%,transparent 100%)}
+.hero+ .section{padding-top:36px}
+@media(max-width:1000px){.hero{width:calc(100% - 48px);min-height:330px}.hero-copy{padding:28px;max-width:73%}.hero h1{font-size:50px}.hero-lead{font-size:16px}}
+@media(max-width:700px){
+ .hero{width:calc(100% - 40px);margin-top:16px;min-height:0;overflow:hidden}
+ .hero-image{height:150px;min-height:150px;margin:0;width:100%;position:relative;inset:auto}
+ .hero-image::after{display:block;background:linear-gradient(0deg,#faf6ef 0%,#faf6ef00 30%)}
+ .hero-image img{object-position:78% center}
+ .hero-copy{padding:10px 22px 28px;max-width:none}
+ .hero h1{font-size:39px;line-height:1.04}
+ .hero-lead{font-size:15px;line-height:1.5;margin:16px 0 22px}
+ .hero-actions{gap:17px}.hero-actions .button{width:100%;min-height:46px}
+ .hero-actions .text-link{font-size:13px}
+ .hero+ .section{padding-top:30px}
+}
+@media(max-width:360px){.hero-copy{padding-inline:18px}.hero h1{font-size:35px}.hero-image{height:130px;min-height:130px}}
+
+/* The message underline starts as close to the text as the contact fields. */
+.contact-form textarea#message{resize:none;min-height:0;max-height:none;height:auto;box-sizing:border-box;padding:11px 0;line-height:1.7;overflow-y:auto;margin-bottom:12px}
+.practice-grid .practice-symbol{height:52px}
+@media(max-width:700px){.practice-grid .practice-row{grid-template-columns:72px minmax(0,1fr) 16px}.practice-grid .practice-symbol{justify-self:center;height:40px}}
