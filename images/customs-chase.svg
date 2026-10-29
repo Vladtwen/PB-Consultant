@@ -23,9 +23,10 @@
       <path d="M0 0h8v8H0Z" /><path fill="var(--paper, #faf6ef)" d="M2 2h4v2H2Z" />
     </g>
   </g>
-  <g class="customs-chase__pacman" transform="translate(64 24)" fill="#dfba28">
-    <path class="customs-chase__frame customs-chase__frame--open" d="M10 0h12v2H10ZM6 2h20v2H6ZM4 4h24v2H4ZM2 6h28v2H2ZM2 8h24v2H2ZM0 10h22v2H0ZM0 12h18v2H0ZM0 14h14v2H0ZM0 16h14v2H0ZM0 18h18v2H0ZM0 20h22v2H0ZM2 22h24v2H2ZM2 24h28v2H2ZM4 26h24v2H4ZM6 28h20v2H6ZM10 30h12v2H10Z" />
-    <path class="customs-chase__frame customs-chase__frame--half" d="M10 0h12v2H10ZM6 2h20v2H6ZM4 4h24v2H4ZM2 6h28v2H2ZM2 8h28v2H2ZM0 10h32v2H0ZM0 12h26v2H0ZM0 14h22v2H0ZM0 16h22v2H0ZM0 18h26v2H0ZM0 20h32v2H0ZM2 22h28v2H2ZM2 24h28v2H2ZM4 26h24v2H4ZM6 28h20v2H6ZM10 30h12v2H10Z" opacity="0" />
+  <g class="customs-chase__pacman" transform="translate(64 24)" fill="#ffda00">
+    <path class="customs-chase__frame customs-chase__frame--open" d="M10 0h12v2H10ZM6 2h20v2H6ZM4 4h24v2H4ZM2 6h24v2H2ZM2 8h22v2H2ZM0 10h22v2H0ZM0 12h20v2H0ZM0 14h18v2H0ZM0 16h18v2H0ZM0 18h20v2H0ZM0 20h22v2H0ZM2 22h22v2H2ZM2 24h24v2H2ZM4 26h24v2H4ZM6 28h20v2H6ZM10 30h12v2H10Z" />
+    <path class="customs-chase__frame customs-chase__frame--half" d="M10 0h12v2H10ZM6 2h20v2H6ZM4 4h24v2H4ZM2 6h28v2H2ZM2 8h28v2H2ZM0 10h30v2H0ZM0 12h28v2H0ZM0 14h24v2H0ZM0 16h24v2H0ZM0 18h28v2H0ZM0 20h30v2H0ZM2 22h28v2H2ZM2 24h28v2H2ZM4 26h24v2H4ZM6 28h20v2H6ZM10 30h12v2H10Z" opacity="0" />
     <path class="customs-chase__frame customs-chase__frame--closed" d="M10 0h12v2H10ZM6 2h20v2H6ZM4 4h24v2H4ZM2 6h28v2H2ZM2 8h28v2H2ZM0 10h32v2H0ZM0 12h32v2H0ZM0 14h32v2H0ZM0 16h32v2H0ZM0 18h32v2H0ZM0 20h32v2H0ZM2 22h28v2H2ZM2 24h28v2H2ZM4 26h24v2H4ZM6 28h20v2H6ZM10 30h12v2H10Z" opacity="0" />
+    <circle class="customs-chase__eye" cx="19" cy="7" r="2.1" fill="#171b17" shape-rendering="geometricPrecision" />
   </g>
 </svg>
