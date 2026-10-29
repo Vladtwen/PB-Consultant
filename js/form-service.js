@@ -28,22 +28,47 @@
         return { data, errors, valid: Object.keys(errors).length === 0 };
     }
 
-    function formError(code, message) {
-        return Object.assign(new Error(message), { code });
+    function formError(code, message, details = {}) {
+        return Object.assign(new Error(message), { code }, details);
+    }
+
+    function needsActivation(message) {
+        // Match a request to activate, not a successful "activated" response.
+        return /\b(?:needs?|requires?)\s+activation\b|\b(?:not\s+(?:yet\s+|been\s+)?|isn't\s+)activated\b|\b(?:please|must|need to|have to)\s+(?:first\s+)?activate\b|\b(?:please|must|need to|have to)\s+(?:first\s+)?(?:confirm|verify)\b.{0,40}\b(?:email|address)\b|\bcheck\s+(?:your\s+)?(?:email|inbox)\b.{0,60}\b(?:activation|confirmation)\s+link\b/i.test(message);
     }
 
     async function send(endpoint, values, options = {}) {
         const checked = validate(values);
         if (!checked.valid) throw formError("validation", "Заполните обязательные поля.");
+        const provider = options.provider || "formsubmit";
+        const configurationMessage = "Приём обращений пока не настроен. Свяжитесь с бюро по телефону или в мессенджере.";
+        if (provider !== "formsubmit" && provider !== "web3forms") {
+            throw formError("configuration", configurationMessage);
+        }
+        const accessKey = typeof options.accessKey === "string" ? options.accessKey.trim() : "";
+        if (provider === "web3forms" && (!accessKey || endpoint !== "https://api.web3forms.com/submit")) {
+            throw formError("configuration", configurationMessage);
+        }
         const payload = {
             name: checked.data.name,
             contact: checked.data.contact,
             message: checked.data.message,
-            practice: checked.data.practice || "Не выбрано",
-            _subject: "Новое обращение — ПБ Консультант",
-            _template: "table"
+            practice: checked.data.practice || "Не выбрано"
         };
-        if (emailPattern.test(checked.data.contact)) payload._replyto = checked.data.contact;
+        const email = emailPattern.test(checked.data.contact) ? checked.data.contact : "";
+        if (provider === "web3forms") {
+            payload.access_key = accessKey;
+            payload.subject = "Новое обращение — ПБ Консультант";
+            payload.from_name = "ПБ Консультант — сайт";
+            if (email) {
+                payload.email = email;
+                payload.replyto = email;
+            }
+        } else {
+            payload._subject = "Новое обращение — ПБ Консультант";
+            payload._template = "table";
+            if (email) payload._replyto = email;
+        }
 
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), options.timeoutMs || 20000);
@@ -55,17 +80,33 @@
                 body: JSON.stringify(payload),
                 signal: controller.signal,
                 credentials: "omit",
-                referrerPolicy: "strict-origin-when-cross-origin"
+                referrerPolicy: "strict-origin-when-cross-origin",
+                ...(provider === "web3forms" ? { redirect: "error" } : {})
             });
-            if (!response.ok) throw formError("service", "Сервис не подтвердил отправку.");
+            const details = { status: response.status };
             let result;
             try { result = await response.json(); }
-            catch { throw formError("response", "Сервис вернул ответ без подтверждения."); }
-            if (/activat|confirm.{0,20}email/i.test(String(result?.message || ""))) {
-                throw formError("activation", "Приём обращений ещё не активирован владельцем сайта.");
+            catch { /* HTTP status still identifies an HTML error or an empty response. */ }
+            if (response.status >= 500 && response.status <= 599) {
+                throw formError("unavailable", "Почтовый сервис временно недоступен. Отправка не подтверждена.", details);
+            }
+            if (response.status === 429) {
+                throw formError("rate-limit", "Почтовый сервис временно ограничил отправку. Попробуйте позже.", details);
+            }
+            const providerMessage = String(result?.message || result?.body?.message || "");
+            if (provider === "web3forms" && !response.ok && response.status === 400
+                && /\b(?:access[\s_-]*key|api[\s_-]*key)\b/i.test(providerMessage)
+                && /\b(?:invalid|missing|required|expired|valid)\b|not\s+found|does\s+not\s+exist/i.test(providerMessage)) {
+                throw formError("configuration", configurationMessage, details);
+            }
+            if (needsActivation(providerMessage)) {
+                throw formError("activation", "Приём обращений ещё не активирован владельцем сайта.", details);
+            }
+            if (!response.ok) {
+                throw formError("service", "Сервис не подтвердил отправку.", details);
             }
             if (result?.success !== true && result?.success !== "true") {
-                throw formError("response", "Сервис не подтвердил отправку.");
+                throw formError("response", "Сервис вернул ответ без подтверждения.", details);
             }
             return { accepted: true };
         } catch (error) {

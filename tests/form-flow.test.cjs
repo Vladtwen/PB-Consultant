@@ -5,6 +5,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
 const service = require("../js/form-service.js");
+const { buildContactLinks } = require("../js/contact-fallback.js");
 
 class Element extends EventTarget {
     constructor(id) {
@@ -24,14 +25,16 @@ class Element extends EventTarget {
 function setup(send = async () => ({ accepted: true })) {
     const ids = ["contact-form", "submit-request", "form-status", "send-warning", "confirm-send", "cancel-send",
         "name", "contact", "message", "practice", "name-error", "contact-error",
-        "message-error", "honey", "warning-acknowledgement"];
+        "message-error", "honey", "warning-acknowledgement", "contact-fallback",
+        "fallback-email", "fallback-whatsapp", "fallback-copy", "fallback-status"];
     const el = Object.fromEntries(ids.map((id) => [id, new Element(id)]));
+    el["contact-fallback"].hidden = true;
     const controls = ["name", "contact", "message", "practice", "honey", "submit-request"].map(id => el[id]);
     el["contact-form"].dataset.endpoint = "https://example.test/form";
     el["contact-form"].querySelectorAll = () => controls;
     el["contact-form"].querySelector = () => el.honey;
     const context = vm.createContext({
-        Event, console, PBFormService: { ...service, send },
+        Event, console, PBFormService: { ...service, send }, PBContactFallback: { buildLinks: buildContactLinks },
         document: { getElementById: id => el[id] },
         window: { location: { protocol: "https:" } }
     });
@@ -50,6 +53,42 @@ function setup(send = async () => ({ accepted: true })) {
     return { el, submit, fill, acknowledge };
 }
 const tick = () => new Promise(resolve => setImmediate(resolve));
+
+test("Отказ сервиса открывает резервные ссылки с полным текстом без автоматической отправки", async () => {
+    let calls = 0;
+    const { el, fill, submit, acknowledge } = setup(async () => {
+        calls++;
+        throw Object.assign(Error("Upstream down"), { code: "unavailable", status: 521 });
+    });
+    fill(); submit(); acknowledge(); el["confirm-send"].click(); await tick();
+    assert.equal(calls, 1);
+    assert.equal(el["contact-fallback"].hidden, false);
+    assert.equal(el["form-status"].dataset.state, "error");
+    assert.match(el["form-status"].textContent, /временно недоступен/);
+    assert.equal(new URL(el["fallback-email"].getAttribute("href")).pathname, "410012a@gmail.com");
+    assert.match(new URL(el["fallback-whatsapp"].getAttribute("href")).searchParams.get("text"), /Проверка договора/);
+    assert.equal(el.message.value, "Проверка договора");
+    assert.equal(el["submit-request"].disabled, false);
+});
+
+test("Резервные ссылки обновляются после правки текста и скрываются при успешной повторной отправке", async () => {
+    let calls = 0;
+    const { el, fill, submit, acknowledge } = setup(async () => {
+        if (++calls === 1) throw Object.assign(Error("network"), { code: "network" });
+        return { accepted: true };
+    });
+    fill(); submit(); acknowledge(); el["confirm-send"].click(); await tick();
+    el.message.value = "Уточнение & вопрос?";
+    el["contact-form"].dispatchEvent(new Event("input"));
+    assert.match(new URL(el["fallback-email"].getAttribute("href")).searchParams.get("body"), /Уточнение & вопрос\?/);
+    assert.equal(calls, 1);
+    submit();
+    assert.equal(el["contact-fallback"].hidden, true);
+    acknowledge(); el["confirm-send"].click(); await tick();
+    assert.equal(el["form-status"].dataset.state, "success");
+    assert.equal(el["contact-fallback"].hidden, true);
+    assert.equal(calls, 2);
+});
 
 test("Пустая форма показывает ошибки и не открывает подтверждение", () => {
     const { el, submit } = setup(); submit();

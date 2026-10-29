@@ -176,11 +176,45 @@ function setupContactForm() {
     const confirmButton = document.getElementById("confirm-send");
     const cancelButton = document.getElementById("cancel-send");
     const acknowledgement = document.getElementById("warning-acknowledgement");
+    const fallback = document.getElementById("contact-fallback");
+    const fallbackEmail = document.getElementById("fallback-email");
+    const fallbackWhatsapp = document.getElementById("fallback-whatsapp");
+    const fallbackCopy = document.getElementById("fallback-copy");
+    const fallbackStatus = document.getElementById("fallback-status");
     const fields = Object.fromEntries(["name", "contact", "message"].map(
         (id) => [id, document.getElementById(id)]
     ));
     let pending = false;
     let lastAccepted = "";
+    let fallbackNeeded = false;
+
+    function updateFallback() {
+        if (!fallback || !fallbackEmail || !fallbackWhatsapp) return;
+        fallback.hidden = true;
+        if (!fallbackNeeded || typeof PBContactFallback === "undefined") return;
+        const checked = PBFormService.validate(values());
+        if (!checked.valid) return;
+        try {
+            const links = PBContactFallback.buildLinks(checked.data);
+            fallbackEmail.setAttribute("href", links.mailto);
+            fallbackWhatsapp.setAttribute("href", links.whatsapp);
+            if (fallbackStatus) fallbackStatus.textContent = "";
+            fallback.hidden = false;
+        } catch { /* Invalid or oversized text must never break the primary form. */ }
+    }
+
+    if (fallbackCopy) {
+        fallbackCopy.hidden = typeof navigator === "undefined" || !navigator.clipboard?.writeText;
+        fallbackCopy.addEventListener("click", async () => {
+            if (typeof PBContactFallback === "undefined" || typeof navigator === "undefined" || !navigator.clipboard?.writeText) return;
+            try {
+                await navigator.clipboard.writeText(PBContactFallback.buildLinks(values()).body);
+                if (fallbackStatus) fallbackStatus.textContent = "Текст скопирован. Вставьте его в письмо или сообщение.";
+            } catch {
+                if (fallbackStatus) fallbackStatus.textContent = "Не удалось скопировать текст. Вы можете выделить его в поле сообщения.";
+            }
+        });
+    }
 
     if (!warning || !acknowledgement || !confirmButton || !cancelButton || typeof warning.showModal !== "function") return;
     form.noValidate = true;
@@ -255,6 +289,7 @@ function setupContactForm() {
         } else if (status.dataset.state === "error" && PBFormService.validate(values()).valid) {
             showStatus("");
         }
+        if (fallbackNeeded) updateFallback();
     });
 
     form.addEventListener("submit", (event) => {
@@ -262,6 +297,8 @@ function setupContactForm() {
         if (pending || warning.open) return;
         if (lastAccepted && lastAccepted === fingerprint(values())) return;
         if (!validate().valid) return;
+        fallbackNeeded = false;
+        updateFallback();
         acknowledgement.checked = false;
         warning.returnValue = "";
         showStatus("Прочитайте предупреждение и подтвердите ознакомление отдельной галочкой.");
@@ -311,16 +348,27 @@ function setupContactForm() {
         setPending(true);
         showStatus("Отправляем обращение. Пожалуйста, дождитесь ответа сервиса.", "pending");
         try {
-            await PBFormService.send(form.dataset.endpoint, submission);
+            await PBFormService.send(form.dataset.endpoint, submission, {
+                provider: form.dataset.provider || "formsubmit",
+                accessKey: form.dataset.accessKey || ""
+            });
             lastAccepted = submittedFingerprint;
+            fallbackNeeded = false;
+            updateFallback();
             showStatus("Обращение отправлено: почтовый сервис принял запрос. Спасибо за обращение.", "success");
         } catch (error) {
-            const message = error.code === "activation"
-                ? "Приём обращений ещё не активирован владельцем сайта. Ваш текст сохранён."
-                : error.code === "timeout" || error.code === "network"
-                    ? error.message + " Ваш текст сохранён. При повторной отправке возможно дублирование."
-                    : "Не удалось отправить обращение. Ваш текст сохранён — попробуйте ещё раз.";
+            const messages = {
+                activation: "Приём обращений на почту ещё не активирован. Ваш текст сохранён. Используйте другой способ связи ниже.",
+                configuration: "Автоматическая отправка пока не настроена. Ваш текст сохранён. Используйте другой способ связи ниже.",
+                unavailable: "Сервис отправки временно недоступен. Отправка не подтверждена. Ваш текст сохранён — выберите другой способ связи ниже.",
+                "rate-limit": "Сервис временно ограничил отправку. Ваш текст сохранён. Можно попробовать позже или связаться другим способом ниже.",
+                network: "Не удалось связаться с сервисом отправки. Ваш текст сохранён. Выберите другой способ связи ниже. Подтверждение не получено; при повторной отправке возможно дублирование.",
+                timeout: "Сервис не ответил вовремя. Ваш текст сохранён. Выберите другой способ связи ниже. Статус отправки неизвестен; при повторной отправке возможно дублирование."
+            };
+            const message = messages[error.code] || "Не удалось подтвердить отправку. Ваш текст сохранён. Выберите другой способ связи ниже.";
             showStatus(message, "error");
+            fallbackNeeded = true;
+            updateFallback();
         } finally {
             setPending(false);
             if (lastAccepted && lastAccepted !== fingerprint(values())) lastAccepted = "";
