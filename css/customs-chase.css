@@ -18,6 +18,13 @@
 .customs-chase__swerve { transform-origin: 24px 44px; }
 .customs-chase__box, .customs-chase__skid { opacity: 0; }
 .customs-chase__pacman { transform: translate(64px, 24px); }
+/* Paint every sprite fill over its stroke so adjacent pixel rows stay seamless. */
+.customs-chase__frame {
+  stroke: #000;
+  stroke-width: 4;
+  stroke-linejoin: miter;
+  paint-order: stroke fill;
+}
 .customs-chase__frame--open { opacity: 1; }
 .customs-chase__frame--half, .customs-chase__frame--closed { opacity: 0; }
 
