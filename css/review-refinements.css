@@ -18,18 +18,17 @@
 .contact-details>p,.contact-channels{grid-column:1}
 .contact-details strong{font-size:16px}.contact-details .contact-role{font-size:11px}
 .contact-details a{font-size:15px}.contact-channels .text-link{font-size:13px}
-/* Familiar messenger colours, with dark labels that remain legible. */
+/* Muted messenger colours, with dark labels that remain legible. */
 .contact-details .contact-channels .messenger-link{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;padding:10px 15px;border:1px solid transparent;border-radius:24px;font-size:13px;line-height:1.4;text-decoration:none;white-space:nowrap;transition:background .2s,transform .2s}
 .contact-channels .messenger-link svg{width:19px;height:19px;flex-shrink:0;fill:currentColor}
-.contact-details .contact-channels .messenger-link--whatsapp{background:#25d366;color:#073c24;border-color:#20bd5b}
-.contact-details .contact-channels .messenger-link--telegram{background:#2aabee;color:#092b40;border-color:#209bd9}
-.contact-details .contact-channels .messenger-link--whatsapp:hover{background:#36df76;border-color:#168844}
-.contact-details .contact-channels .messenger-link--telegram:hover{background:#47bbf5;border-color:#1677a8}
+.contact-details .contact-channels .messenger-link--whatsapp{background:#dce9df;color:#28583d;border-color:#b5cdbb}
+.contact-details .contact-channels .messenger-link--telegram{background:#e0eaf0;color:#2a526a;border-color:#b9cdd9}
+.contact-details .contact-channels .messenger-link--whatsapp:hover{background:#cbded0;border-color:#8eb39a}
+.contact-details .contact-channels .messenger-link--telegram:hover{background:#cfdee7;border-color:#95b5c8}
 .contact-details .contact-channels .messenger-link:focus-visible{outline:3px solid #20241f;outline-offset:4px}
 .contact-form label:not(.honey){font-size:14px;font-weight:600;line-height:1.5;color:#253b31}
 .contact-form input:not([type=checkbox]),.contact-form textarea{color:#202d24;font-size:16px;line-height:1.7;margin-top:7px;padding:11px 0;border-bottom-color:#9ba28e}
-.contact-form input::placeholder,.contact-form textarea::placeholder{color:#62675b;opacity:1;font-size:15px;font-weight:400}
-.contact-form .required-note{font-size:12px;color:#61695b;margin-bottom:25px}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:#858c80;opacity:1;font-size:12px;font-weight:400}
 .form-heading>p:last-child{font-size:14px}
 .contact-form .field-help{font-size:12px;line-height:1.65;max-width:none}
 .contact-form>.button{margin-top:25px}
