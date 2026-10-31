@@ -272,7 +272,7 @@ function setupContactForm() {
         });
         acknowledgement.disabled = active;
         syncConfirmation();
-        button.textContent = active ? "Отправляем…" : "Начать разговор";
+        button.textContent = active ? "Отправляем…" : "К делу";
     }
 
     form.addEventListener("input", (event) => {
@@ -284,7 +284,7 @@ function setupContactForm() {
         if (lastAccepted && fingerprint(values()) !== lastAccepted) {
             lastAccepted = "";
             button.disabled = false;
-            button.textContent = "Начать разговор";
+            button.textContent = "К делу";
             showStatus("");
         } else if (status.dataset.state === "error" && PBFormService.validate(values()).valid) {
             showStatus("");

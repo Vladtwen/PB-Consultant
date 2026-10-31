@@ -17,7 +17,7 @@
             @keyframes loader-stamp { to { opacity: 1; transform: scale(1); } }
             @keyframes loader-fly { 0%, 38% { opacity: 1; transform: translate(0,0) rotate(0); } 65%, 100% { opacity: 0; transform: translate(36px,-34px) rotate(13deg); } }
             @media (prefers-reduced-motion: reduce) { .loader-art::before, .loader-paper, .loader-signature, .loader-stamp { animation-duration: .01ms; animation-delay: 0ms; } }
-        </style><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f3eb"><title>Юридическая практика для бизнеса — ПБ Консультант</title><meta name="description" content="Корпоративные, налоговые и таможенные споры. Юридическое сопровождение сделок и проектов."><meta property="og:title" content="Юридическая практика для бизнеса — ПБ Консультант"><meta property="og:description" content="Корпоративные, налоговые и таможенные споры. Юридическое сопровождение сделок и проектов."><meta property="og:type" content="website"><meta property="og:locale" content="ru_RU"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="css/editorial.css"><link rel="stylesheet" href="css/customs-chase.css?v=20261029-outline"><link rel="stylesheet" href="css/review-refinements.css?v=20261029-messengers"><link rel="stylesheet" href="css/compact-hero.css"><link rel="stylesheet" href="css/practice-overview.css"><script src="js/form-service.js?v=20261029" defer></script><script src="js/contact-fallback.js" defer></script><script src="js/main.js?v=20261029" defer></script><script src="js/textarea-autosize.js" defer></script><script src="js/practice-motion.js" defer></script><script src="js/page-loader.js" defer></script><script src="js/customs-chase.js" defer></script></head><body id="top"><div id="page-loader" role="status" aria-live="polite" aria-label="Сайт загружается">
+        </style><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f3eb"><title>Юридическая практика для бизнеса — ПБ Консультант</title><meta name="description" content="Корпоративные, налоговые и таможенные споры. Юридическое сопровождение сделок и проектов."><meta property="og:title" content="Юридическая практика для бизнеса — ПБ Консультант"><meta property="og:description" content="Корпоративные, налоговые и таможенные споры. Юридическое сопровождение сделок и проектов."><meta property="og:type" content="website"><meta property="og:locale" content="ru_RU"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="css/editorial.css"><link rel="stylesheet" href="css/customs-chase.css?v=20261029-outline"><link rel="stylesheet" href="css/review-refinements.css?v=20261031-form"><link rel="stylesheet" href="css/compact-hero.css"><link rel="stylesheet" href="css/practice-overview.css"><script src="js/form-service.js?v=20261029" defer></script><script src="js/contact-fallback.js" defer></script><script src="js/main.js?v=20261031-form" defer></script><script src="js/textarea-autosize.js" defer></script><script src="js/practice-motion.js" defer></script><script src="js/page-loader.js" defer></script><script src="js/customs-chase.js" defer></script></head><body id="top"><div id="page-loader" role="status" aria-live="polite" aria-label="Сайт загружается">
             <div class="loader-card" aria-hidden="true">
                 <span class="loader-art">
                     <svg class="loader-document" viewBox="0 0 48 56" fill="none">
@@ -120,7 +120,6 @@
                         <!-- Общая рамка объединяет рабочую область формы. -->
                         <fieldset class="form-fields">
                             <legend>Расскажите о задаче</legend>
-                            <p class="required-note">Все поля обязательны.</p>
                             <div class="form-pair">
                                 <div class="field">
                                     <label for="name">Имя</label>
@@ -140,9 +139,8 @@
                             <label for="message">Кратко опишите ситуацию</label>
                             <textarea id="message" name="message" rows="1" data-autosize-max-rows="6" maxlength="6000"
                                 placeholder="Что произошло?"
-                                aria-describedby="message-help message-error example-status" required></textarea>
+                                aria-describedby="message-error example-status" required></textarea>
                             <p id="message-error" class="field-error" hidden></p>
-                            <p id="message-help" class="field-help">Достаточно общего описания. Документы и конфиденциальные сведения передадите после согласования способа связи.</p>
                             <p id="example-status" class="field-help" role="status" aria-live="polite"></p>
                             <details id="example-preview" class="example-preview" hidden>
                                 <summary>Посмотреть пример по выбранному направлению</summary>
@@ -157,7 +155,7 @@
                         </fieldset>
                         <input id="practice" name="practice" type="hidden">
                         <button id="submit-request" class="button" type="submit" disabled>
-                            Начать разговор
+                            К делу
                         </button>
                         <p id="form-status" class="form-status" role="status"
                             aria-live="polite" aria-atomic="true" tabindex="-1"></p>
@@ -167,10 +165,6 @@
                             <div class="fallback-actions"><a id="fallback-email" class="button button-outline" href="mailto:410012a@gmail.com">Открыть письмо</a><a id="fallback-whatsapp" class="button button-outline" href="https://wa.me/79063075697" target="_blank" rel="noopener">Открыть WhatsApp</a><button id="fallback-copy" class="text-button" type="button">Скопировать текст</button></div>
                             <p id="fallback-status" class="field-help" role="status" aria-live="polite"></p>
                         </div>
-                        <p id="intake-notice" class="form-notice">
-                            Форма предназначена для первичного обращения. Не передавайте критичную информацию.
-                            Обращение передаётся через почтовый сервис Web3Forms.
-                        </p>
                         <noscript>
                             <p class="form-notice">Включите JavaScript, чтобы проверить поля и отправить обращение.</p>
                         </noscript>
