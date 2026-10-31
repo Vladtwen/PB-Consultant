@@ -27,3 +27,12 @@
 .contact-form textarea#message{resize:none;min-height:0;max-height:none;height:auto;box-sizing:border-box;padding:11px 0;line-height:1.7;overflow-y:auto;margin-bottom:12px}
 .practice-grid .practice-symbol{height:52px}
 @media(max-width:700px){.practice-grid .practice-row{grid-template-columns:72px minmax(0,1fr) 16px}.practice-grid .practice-symbol{justify-self:center;height:40px}}
+
+.contact-fallback{margin-top:20px;padding:20px;border:1px solid #d7cbb5;background:#faf6efb8;border-radius:8px}
+.contact-fallback h4{margin:0 0 9px;font:400 22px/1.25 var(--serif);color:var(--ink)}
+.contact-fallback>p{font-size:13px;line-height:1.65;color:#53604f}
+.fallback-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
+.fallback-actions .button{font-size:12px;padding:10px 15px;border-radius:24px;min-height:42px}
+.fallback-actions .text-button{font-size:12px}
+#fallback-status:not(:empty){margin-top:12px}
+@media(max-width:360px){.contact-fallback{padding:16px}.fallback-actions .button{width:100%}}
