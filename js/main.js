@@ -2,48 +2,10 @@
 
 document.documentElement.classList.add("js-enabled");
 
-setupMobileMenu();
 setupImageSlots();
 setupCaseDialogs();
 setupPracticeExamples();
 setupContactForm();
-
-/* Шапка и мобильное меню */
-function setupMobileMenu() {
-    const header = document.querySelector(".header");
-    const button = document.querySelector(".menu-button");
-    const menu = document.querySelector("#mobile-nav");
-
-    if (!header || !button || !menu) return;
-    button.hidden = false;
-
-    function setOpen(open) {
-        menu.hidden = !open;
-        button.setAttribute("aria-expanded", String(open));
-        button.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
-        button.textContent = open ? "×" : "☰";
-    }
-
-    function updateHeader() {
-        header.classList.toggle("scrolled", window.scrollY > 20);
-    }
-
-    button.addEventListener("click", () => setOpen(menu.hidden));
-    menu.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", () => setOpen(false));
-    });
-    document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape" && !menu.hidden) {
-            setOpen(false);
-            button.focus();
-        }
-    });
-    window.addEventListener("resize", () => {
-        if (window.innerWidth > 950) setOpen(false);
-    });
-    window.addEventListener("scroll", updateHeader, { passive: true });
-    updateHeader();
-}
 
 /*
  * Фотографии: достаточно положить hero.jpg и about.jpg в images/.
