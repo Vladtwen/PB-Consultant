@@ -1,0 +1,193 @@
+/* Internal pages: a readable single-column article and a compact practice list.
+   Everything is scoped to small screens; desktop geometry stays unchanged. */
+@media (max-width: 900px) {
+  .breadcrumbs {
+    padding-block: 22px 14px;
+    font-size: 12px;
+    line-height: 1.9;
+    overflow-wrap: break-word;
+  }
+  .breadcrumbs span { margin-inline: 6px; }
+
+  .page-intro {
+    max-width: 100%;
+    padding: 30px 0 36px;
+  }
+  .page-intro h1 {
+    max-width: 800px;
+    font-size: clamp(36px, 5.5vw, 49px);
+    line-height: 1.12;
+    letter-spacing: -.035em;
+    overflow-wrap: break-word;
+  }
+  .page-intro p:not(.eyebrow) {
+    max-width: 680px;
+    margin-top: 20px;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  .page-intro > .practice-status { margin-top: 18px; }
+
+  .catalog {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+    padding-bottom: 30px;
+  }
+  .catalog > .practice-row:nth-child(n) {
+    min-width: 0;
+    padding: 26px 0;
+    border-right: 0;
+  }
+  .catalog .practice-row h3 {
+    font-size: 25px;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+  }
+  .catalog .practice-row p {
+    max-width: none;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .catalog .practice-status { font-size: 11px; }
+  .catalog .practice-row > .text-link { padding-block: 6px; }
+
+  .article-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 34px;
+    padding-bottom: 44px;
+  }
+  .article-content {
+    min-width: 0;
+    max-width: 760px;
+    font-size: 16px;
+    line-height: 1.75;
+    overflow-wrap: break-word;
+  }
+  .article-content h2 {
+    margin: 32px 0 18px;
+    font-size: 30px;
+    line-height: 1.2;
+  }
+  .article-content > h2:first-child { margin-top: 0; }
+  .article-content h3 {
+    margin: 26px 0 12px;
+    font-size: 23px;
+    line-height: 1.25;
+  }
+  .article-content p { margin-bottom: 18px; }
+  .article-content ul { padding-left: 21px; }
+  .article-content li { padding-left: 3px; }
+  .article-content .faq-item summary {
+    align-items: start;
+    min-height: 44px;
+    font-size: 18px;
+    line-height: 1.4;
+  }
+  .article-content .faq-item p { font-size: 15px; }
+  .article-aside {
+    position: static;
+    top: auto;
+    min-width: 0;
+    max-width: 760px;
+    margin-top: 0;
+    padding-top: 26px;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .article-aside .practice-symbol { margin-bottom: 18px; }
+  .article-aside .button { max-width: 320px; min-height: 48px; }
+  .article-aside .text-link { display: table; margin-top: 18px; padding-block: 6px; }
+  .case-meta {
+    gap: 8px 20px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .page-next {
+    align-items: start;
+    gap: 22px;
+    padding: 28px 0 40px;
+  }
+  .page-next h2 { font-size: 30px; line-height: 1.2; }
+  .page-next p { font-size: 15px; line-height: 1.65; }
+  .page-next .button { flex-shrink: 0; min-height: 48px; }
+
+  /* These two documents still use the earlier desktop stylesheet. */
+  .legal-page { background: #faf6ef; color: #20241f; }
+  .legal-page main.wrap.section {
+    width: calc(100% - 48px);
+    max-width: 760px;
+    padding-block: 40px 48px;
+    border: 0;
+  }
+  .legal-page .text-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 14px;
+    color: #244337;
+  }
+  .legal-page h1 {
+    margin: 26px 0;
+    font-size: clamp(32px, 5.5vw, 44px);
+    line-height: 1.16;
+    overflow-wrap: break-word;
+  }
+  .legal-page p {
+    color: #4e554b;
+    font-size: 16px;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 700px) {
+  .breadcrumbs { padding-block: 18px 10px; font-size: 11px; }
+  .page-intro { padding: 22px 0 30px; }
+  .page-intro h1 { font-size: clamp(32px, 8.6vw, 43px); }
+  .page-intro p:not(.eyebrow) { margin-top: 18px; font-size: 16px; }
+  .page-intro .eyebrow { margin-bottom: 14px; }
+
+  .catalog { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .catalog > .practice-row:nth-child(n) {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    column-gap: 14px;
+    align-items: start;
+    padding: 24px 0;
+  }
+  .catalog .practice-row > .practice-symbol {
+    grid-column: 1;
+    grid-row: 1 / 5;
+    justify-self: center;
+    width: 42px;
+    height: 42px;
+    margin: 1px 0 0;
+  }
+  .catalog .practice-row > .practice-symbol.customs-chase {
+    width: 64px;
+    height: 42px;
+  }
+  .catalog .practice-row > h3,
+  .catalog .practice-row > p,
+  .catalog .practice-row > .practice-status,
+  .catalog .practice-row > .text-link { grid-column: 2; }
+  .catalog .practice-row h3 { margin: 0 0 10px; font-size: 23px; }
+  .catalog .practice-row p { margin: 0 0 12px; }
+  .catalog .practice-row > .practice-status { margin: 0 0 10px; }
+  .catalog .practice-row > .text-link { justify-self: start; font-size: 13px; }
+  .catalog .practice-row .arrow { margin-left: 9px; }
+
+  .article-layout { gap: 28px; padding-bottom: 36px; }
+  .article-content h2 { font-size: clamp(26px, 6.5vw, 30px); }
+  .article-content h3 { font-size: 22px; }
+  .article-aside .button { max-width: none; }
+  .case-meta { flex-direction: column; gap: 7px; }
+  .page-next { flex-direction: column; }
+  .page-next .button { width: 100%; }
+
+  .legal-page main.wrap.section { width: calc(100% - 40px); padding-top: 28px; }
+  .legal-page h1 { font-size: clamp(30px, 8.2vw, 38px); }
+}

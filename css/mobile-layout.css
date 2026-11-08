@@ -1,0 +1,230 @@
+/* Mobile composition only. Desktop rules remain in the existing stylesheets. */
+@media (max-width: 900px) {
+  html { scroll-padding-top: 88px; -webkit-text-size-adjust: 100%; }
+  .wrap { width: calc(100% - 48px); }
+  .header { position: sticky; top: 0; }
+  .header-inner { min-height: 72px; gap: 16px; }
+  .desktop-nav, .header-actions > .button { display: none; }
+  .menu-button {
+    display: inline-flex; align-items: center; justify-content: center;
+    flex: 0 0 44px; width: 44px; height: 44px; padding: 0;
+    color: var(--ink); line-height: 1; border-radius: 4px;
+  }
+  .mobile-nav {
+    position: absolute; inset: 100% 0 auto;
+    max-height: calc(100dvh - 72px); overflow-y: auto; overscroll-behavior: contain;
+    display: grid; gap: 0; padding: 8px 24px 20px;
+    background: var(--paper); border-bottom: 1px solid var(--line);
+    box-shadow: 0 18px 24px #253b3110;
+  }
+  .mobile-nav a {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 20px; min-height: 52px; padding: 12px 0;
+    border-bottom: 1px solid var(--line); font-size: 16px;
+  }
+  .mobile-nav a::after { content: '↗'; color: var(--ochre); }
+  .mobile-nav a:last-child { border-bottom: 0; }
+  noscript .mobile-nav { position: static; box-shadow: none; }
+  .section { padding-block: 40px; }
+  .section-heading { margin-bottom: 22px; }
+  .practice-grid--all { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .practice-grid--all > .practice-row:nth-child(n) {
+    padding: 24px 22px; border-right: 0;
+  }
+  .practice-grid--all > .practice-row:nth-child(odd) { padding-left: 0; border-right: 1px solid var(--line); }
+  .practice-grid--all > .practice-row:nth-child(even) { padding-right: 0; }
+  .practice-grid--all > .practice-row > h3 { font-size: 24px; overflow-wrap: break-word; }
+  .practice-grid--all > .practice-row > p { font-size: 14px; }
+  .case-layout { grid-template-columns: minmax(0, 1fr) 180px; gap: 28px; }
+  .case-copy h2 { font-size: 32px; }
+  .case-columns { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .case-columns p { font-size: 15px; line-height: 1.65; }
+  .case-image { max-width: 180px; min-height: 0; height: auto; }
+  .contact-layout { grid-template-columns: minmax(0, 1fr); gap: 32px; max-width: 620px; }
+  .contact-copy { min-width: 0; }
+  .contact-copy h2 { max-width: 500px; }
+  .contact-details { grid-template-columns: minmax(0, 1fr); }
+  .contact-channels { display: flex; gap: 10px; flex-wrap: wrap; }
+  .contact-form { border-top: 1px solid var(--line); padding: 30px 0 0; }
+  .form-pair { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .contact-form input:not([type=checkbox]), .contact-form textarea { font-size: 16px; }
+  .contact-form input, .contact-form textarea { scroll-margin-block: 110px 36px; }
+  .contact-form .field-error { line-height: 1.55; }
+  .contact-fallback { min-width: 0; overflow-wrap: break-word; }
+  .footer-inner { align-items: flex-start; flex-direction: column; gap: 22px; }
+  .footer-links { gap: 12px 24px; font-size: 12px; line-height: 1.6; }
+  .footer-links a { display: inline-block; padding-block: 6px; }
+}
+
+@media (max-width: 700px) {
+  .wrap { width: calc(100% - 40px); }
+  .header-inner { min-height: 68px; }
+  .brand { gap: 10px; }
+  .brand-name { font-size: 14px; }
+  .brand small { font-size: 7px; letter-spacing: .2em; margin-top: 5px; }
+  .monogram { font-size: 38px; }
+  .mobile-nav { max-height: calc(100dvh - 68px); padding-inline: 20px; }
+  .section { padding-block: 36px; }
+  h2 { font-size: clamp(29px, 7.6vw, 36px); line-height: 1.12; }
+  .hero {
+    display: flex; flex-direction: column; width: 100%; min-height: 0;
+    margin: 0; border: 0; border-radius: 0; background: var(--paper); overflow: visible;
+  }
+  .hero-image {
+    position: relative; inset: auto; order: 0; flex: none;
+    width: calc(100% - 40px); height: clamp(154px, 44vw, 230px);
+    min-height: 0; margin: 16px 20px 0; overflow: hidden; border-radius: 2px;
+  }
+  .hero-image img { object-position: 78% center; }
+  .hero-image::after { background: linear-gradient(0deg, #faf6ef55, transparent 40%); }
+  .hero-copy { order: 1; max-width: none; width: 100%; padding: 24px 20px 12px; }
+  .hero h1 { max-width: none; font-size: clamp(36px, 10.5vw, 48px); line-height: 1.04; }
+  .hero-lead { max-width: 360px; font-size: 16px; line-height: 1.55; margin: 18px 0 24px; }
+  .hero-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .hero-actions .button { min-height: 50px; width: 100%; font-size: 14px; }
+  .hero-actions .text-link { justify-self: center; min-height: 44px; display: flex; align-items: center; padding-bottom: 0; font-size: 13px; }
+  .hero + .section { padding-top: 32px; }
+  .practice-grid--all { grid-template-columns: minmax(0, 1fr); }
+  .practice-grid--all > .practice-row:nth-child(n) {
+    display: grid; grid-template-columns: 56px minmax(0, 1fr) 18px;
+    gap: 0 12px; padding: 24px 0; border-right: 0;
+  }
+  .practice-grid--all > .practice-row > .practice-symbol {
+    grid-column: 1; grid-row: 1 / 4; justify-self: center;
+    width: 36px; height: 40px; margin: 0;
+  }
+  .practice-grid--all > .practice-row > .practice-symbol.customs-chase { width: 56px; height: 40px; }
+  .practice-grid--all > .practice-row > h3 { grid-column: 2; margin: 0 0 10px; font-size: 22px; line-height: 1.18; }
+  .practice-grid--all > .practice-row > p { grid-column: 2 / -1; margin: 0; font-size: 14px; line-height: 1.6; overflow-wrap: break-word; }
+  .practice-grid--all > .practice-row > .practice-status {
+    grid-column: 2 / -1; grid-row: auto; align-self: start; justify-self: start;
+    margin: 12px 0 0; font-size: 10px; line-height: 1.5; overflow-wrap: normal;
+  }
+  .practice-grid--all > .practice-row > .text-link,
+  .practice-grid--all > .practice-row > .practice-status + .text-link {
+    grid-column: 3; grid-row: 1; align-self: start; justify-self: end;
+    margin: 0; padding: 2px 0; border: 0; font-size: 0;
+  }
+  .practice-grid--all > .practice-row > .text-link .arrow { margin: 0; font-size: 18px; }
+  .all-practices { margin-top: 0; padding-top: 18px; font-size: 12px; text-align: center; }
+  .all-practices .text-link { min-height: 44px; display: flex; align-items: center; }
+  .case-layout { display: flex; flex-direction: column; gap: 0; }
+  .case-copy { padding: 32px 0; }
+  .case-copy .eyebrow { font-size: 10px; line-height: 1.7; margin-bottom: 14px; }
+  .case-copy h2 { font-size: clamp(29px, 7.8vw, 36px); line-height: 1.15; }
+  .case-copy > p:not(.eyebrow) { font-size: 15px; line-height: 1.6; }
+  .case-columns { grid-template-columns: minmax(0, 1fr); gap: 24px; margin-block: 28px; }
+  .case-columns > div { padding-left: 16px; }
+  .case-columns h3 { font-size: 23px; margin-bottom: 9px; }
+  .case-copy > .text-link { min-height: 44px; display: inline-flex; align-items: center; padding-bottom: 0; }
+  .case-image { width: 100%; max-width: none; height: 120px; min-height: 0; margin: 0 0 28px; }
+  .case-image img { object-position: 51% 48%; }
+  .team-grid--people { grid-template-columns: minmax(0, 1fr); gap: 0; margin-top: 24px; }
+  .team-person { padding-block: 24px; }
+  .team-person h3 { font-size: clamp(26px, 7vw, 31px); line-height: 1.15; }
+  .team-person .eyebrow { font-size: 10px; }
+  .team-intro { font-size: 15px; line-height: 1.75; }
+  #approach.steps { gap: 0; margin-top: 28px; padding: 8px 0; }
+  #approach.steps > li { justify-content: flex-start; gap: 18px; padding: 18px 8px; }
+  #approach.steps > li + li { border-top: 1px solid #ddd5c880; }
+  #approach.steps > li > p { flex-basis: auto; width: auto; max-width: none; font-size: 21px; }
+  .faq { padding-top: 0; }
+  .faq-item { padding: 0; }
+  .faq-item summary { min-height: 64px; padding-block: 18px; align-items: center; font-size: 19px; line-height: 1.35; }
+  .faq-item p { font-size: 15px; line-height: 1.7; margin: 0 0 20px; }
+  .contact-section { padding: 40px 0 32px; }
+  .contact-layout { max-width: none; gap: 32px; }
+  .contact-copy { display: grid; grid-template-columns: minmax(0, 1fr) 48px; gap: 0 12px; }
+  .contact-copy > .eyebrow { grid-column: 1; grid-row: 1; min-height: 0; margin: 0 0 18px; font-size: 10px; }
+  .contact-flourish { grid-column: 2; grid-row: 1; align-self: start; width: 44px; height: 44px; font-size: 44px; margin: -9px 0 0; }
+  .contact-copy h2 { grid-column: 1 / -1; grid-row: 2; font-size: clamp(32px, 8.5vw, 40px); margin-bottom: 22px; line-height: 1.13; }
+  .contact-copy > p:not(.eyebrow), .contact-details { grid-column: 1 / -1; }
+  .contact-copy > p:not(.eyebrow) { font-size: 15px; line-height: 1.8; }
+  .contact-details { margin-top: 24px; gap: 18px; }
+  .contact-details strong { font-size: 17px; }
+  .contact-details > p > a { display: inline-block; padding-block: 5px; font-size: 16px; }
+  .contact-details .contact-channels { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .contact-details .contact-channels .messenger-link { width: 100%; max-width: none; min-height: 48px; font-size: 14px; }
+  .contact-form { padding-top: 28px; }
+  .form-heading { margin-bottom: 24px; }
+  .form-heading h3 { font-size: 29px; line-height: 1.2; margin-bottom: 12px; }
+  .form-heading > p:last-child { font-size: 14px; line-height: 1.6; max-width: 300px; }
+  .contact-form label:not(.honey) { font-size: 14px; }
+  .contact-form input:not([type=checkbox]), .contact-form textarea { font-size: 16px; line-height: 1.7; padding-block: 12px; }
+  .contact-form input:not([type=checkbox]) { margin-bottom: 24px; }
+  .contact-form textarea#message { padding-block: 12px; min-height: 0; margin-bottom: 0; }
+  .contact-form input::placeholder, .contact-form textarea::placeholder { font-size: 12px; }
+  .contact-form > .button { margin-top: 24px; min-height: 56px; padding: 10px 12px 10px 22px; font-size: 16px; }
+  .contact-form .field-error { margin-block: 8px 18px; }
+  .fallback-actions { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .fallback-actions .button { width: 100%; min-height: 46px; }
+  .footer { padding: 28px 0 max(28px, env(safe-area-inset-bottom)); }
+  .footer-links { flex-direction: column; gap: 10px; }
+}
+
+@media (max-width: 360px) {
+  .brand-name { font-size: 12px; }
+  .brand small { font-size: 6px; }
+  .monogram { font-size: 35px; }
+  .practice-grid--all > .practice-row:nth-child(n) { grid-template-columns: 44px minmax(0, 1fr) 16px; gap: 0 10px; }
+  .practice-grid--all > .practice-row > h3 { font-size: 20px; }
+  .practice-grid--all > .practice-row > .practice-symbol.customs-chase { width: 44px; }
+}
+
+/* A compact homepage directory; full descriptions stay on the practice pages. */
+@media (max-width: 900px) {
+  #services .practice-grid--all { grid-template-columns: minmax(0, 1fr); }
+  #services .practice-grid--all > .practice-row:nth-child(n) {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) 18px;
+    column-gap: 10px;
+    align-items: center;
+    min-height: 62px;
+    padding: 12px 0;
+    border-right: 0;
+  }
+  #services .practice-grid--all > .practice-row > .practice-symbol {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    justify-self: center;
+    align-self: center;
+    width: 28px;
+    height: 32px;
+    margin: 0;
+  }
+  #services .practice-grid--all > .practice-row > .practice-symbol.customs-chase { width: 48px; height: 32px; }
+  #services .practice-grid--all > .practice-row > h3 {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+  }
+  #services .practice-grid--all > .practice-row > p { display: none; }
+  #services .practice-grid--all > .practice-row > .practice-status {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+    align-self: start;
+    margin: 5px 0 0;
+    padding: 2px 7px;
+    font-size: 10px;
+    line-height: 1.4;
+    overflow-wrap: normal;
+  }
+  #services .practice-grid--all > .practice-row > .text-link,
+  #services .practice-grid--all > .practice-row > .practice-status + .text-link {
+    grid-column: 3;
+    grid-row: 1 / 3;
+    justify-self: end;
+    align-self: center;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 0;
+  }
+  #services .practice-grid--all > .practice-row > .text-link .arrow { margin: 0; font-size: 18px; }
+  .case-layout { grid-template-columns: minmax(0, 1fr); }
+  .case-layout > .case-image { display: none; }
+}
